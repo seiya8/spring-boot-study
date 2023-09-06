@@ -4,6 +4,10 @@
         <title>spring boot hello</title>
     </head>
     <body>
-         <h1>Hello World!!</h1>
+        <p th:if="${name}">Hello, <span th:text="${name}">Name</span></p>
+        <form action="/" method="post">
+            <input type="text" name="name">
+            <input type="submit" value="Submit">
+        </form>
     </body>
 </html>
