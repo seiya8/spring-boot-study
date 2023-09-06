@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 //ポイント1
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
