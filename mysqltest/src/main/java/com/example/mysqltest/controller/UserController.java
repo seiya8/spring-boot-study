@@ -1,4 +1,4 @@
-package com.example.mysqltest;
+package com.example.mysqltest.controller;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.mysqltest.User;
-import com.example.mysqltest.UserService;
+import com.example.mysqltest.model.User;
+import com.example.mysqltest.service.UserService;
 
 @Controller
 public class UserController {

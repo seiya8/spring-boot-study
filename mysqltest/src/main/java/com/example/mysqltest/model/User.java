@@ -1,4 +1,4 @@
-package com.example.mysqltest;
+package com.example.mysqltest.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,14 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//ポイント1
 @Entity
 @Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    //ポイント2
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
