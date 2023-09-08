@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Customer List</title>
+</head>
+<body>
+    <h1>Register Customer</h1>
+    <form action="/add" method="post">
+        <input type="text" name="name" placeholder="Name">
+        <input type="text" name="address" placeholder="Address">
+        <input type="text" name="phoneNumber" placeholder="Phone Number">
+        <input type="submit" value="Register">
+    </form>
+    <form action="/" method="get">
+        <input type="submit" value="Back">
+    </form>
+</body>
+</html>
