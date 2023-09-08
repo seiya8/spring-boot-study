@@ -1,7 +1,6 @@
 package com.example.addressapp.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +24,12 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public Customer find(Integer id) {
-        return customerRepository.getOne(id);
+    public Customer findById(Integer id) {
+        return customerRepository.findById(id).orElseThrow();
     }
 
     public void update(CustomerForm customerForm) {
-        Customer customer = customerRepository.getOne(customerForm.getId());
+        Customer customer = customerRepository.findById(customerForm.getId()).orElseThrow();
         customer.setName(customerForm.getName());
         customer.setAddress(customerForm.getAddress());
         customer.setPhoneNumber(customerForm.getPhoneNumber());

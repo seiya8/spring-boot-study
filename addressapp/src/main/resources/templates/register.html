@@ -6,9 +6,21 @@
 </head>
 <body>
     <h1>Register Customer</h1>
-    <form action="/add" method="post">
+    <form action="#" th:action="@{/add}" th:object="${customerForm}" method="post">
+        <div th:if="${#fields.hasErrors('name')}" class="error">
+            <p th:errors="*{name}">Name Error</p>
+        </div>
+        <label for="name">Name:</label>
         <input type="text" name="name" placeholder="Name">
+        <div th:if="${#fields.hasErrors('address')}" class="error">
+            <p th:errors="*{address}">Name Error</p>
+        </div>
+        <label for="address">Address:</label>
         <input type="text" name="address" placeholder="Address">
+        <div th:if="${#fields.hasErrors('phoneNumber')}" class="error">
+            <p th:errors="*{phoneNumber}">Name Error</p>
+        </div>
+        <label for="phoneNumber">Phone Number:</label>
         <input type="text" name="phoneNumber" placeholder="Phone Number">
         <input type="submit" value="Register">
     </form>
