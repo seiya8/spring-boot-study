@@ -30,34 +30,33 @@ public class CustomerController {
     }
 
     @GetMapping("/add")
-    String registerForm(Model model) {
+    String add(Model model) {
+        model.addAttribute("updateCustomer", null);
         model.addAttribute("customerForm", new CustomerForm());
-        return "register";
-    }
-
-    @PostMapping("/add")
-    String insertCustomer(@ModelAttribute @Validated CustomerForm customerForm, BindingResult result) {
-        if (result.hasErrors()) {
-            return "register";
-        }
-        customerService.insert(customerForm);
-        return "redirect:/";
+        return "update";
     }
 
     @GetMapping("/edit")
-    String editForm(@RequestParam("id") Integer id, Model model) {
-        Customer updateCustomer = customerService.findById(id);
-        model.addAttribute("customerForm", new CustomerForm());
-        model.addAttribute("updateCustomer", updateCustomer);
+    String edit(@RequestParam("id") Integer id, Model model) {
+        Customer customer = customerService.findById(id);
+        CustomerForm customerForm = new CustomerForm();
+        if (customer != null) {
+            customerForm.setId(customer.getId());
+            customerForm.setName(customer.getName());
+            customerForm.setAddress(customer.getAddress());
+            customerForm.setPhoneNumber(customer.getPhoneNumber());
+        }
+        model.addAttribute("customerForm", customerForm);
+        model.addAttribute("isNew", false);
         return "update";
     }
 
     @PostMapping("/update")
-    String updateCustomer(@ModelAttribute @Validated CustomerForm customerForm, BindingResult result, Model model) {
+    String update(@ModelAttribute @Validated CustomerForm customerForm, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            Customer updateCustomer = customerService.findById(customerForm.getId());
+            var isNew = customerForm.getId() == null ? true : false;
+            model.addAttribute("isNew", isNew);
             model.addAttribute("customerForm", customerForm);
-            model.addAttribute("updateCustomer", updateCustomer);
             return "update";
         }
 

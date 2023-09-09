@@ -29,15 +29,8 @@ public class CustomerService {
     }
 
     public void update(CustomerForm customerForm) {
-        Customer customer = customerRepository.findById(customerForm.getId()).orElseThrow();
-        customer.setName(customerForm.getName());
-        customer.setAddress(customerForm.getAddress());
-        customer.setPhoneNumber(customerForm.getPhoneNumber());
-        customerRepository.save(customer);
-    }
-
-    public void insert(CustomerForm customerForm) {
-        Customer customer = new Customer();
+        var id = customerForm.getId();
+        Customer customer = id != null ? customerRepository.findById(id).orElseThrow() : new Customer();
         customer.setName(customerForm.getName());
         customer.setAddress(customerForm.getAddress());
         customer.setPhoneNumber(customerForm.getPhoneNumber());
