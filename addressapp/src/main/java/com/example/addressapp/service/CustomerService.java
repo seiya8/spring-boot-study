@@ -36,4 +36,9 @@ public class CustomerService {
         customer.setPhoneNumber(customerForm.getPhoneNumber());
         customerRepository.save(customer);
     }
+
+    public List<Customer> findByName(String keyword) {
+        return customerRepository.findByNameContainingOrderById(keyword);
+    }
+
 }

@@ -8,21 +8,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.validation.BindingResult;
 
 import com.example.addressapp.model.Customer;
+import com.example.addressapp.repository.CustomerRepository;
 import com.example.addressapp.service.CustomerService;
 import com.example.addressapp.form.CustomerForm;
+
 
 
 @Controller
 public class CustomerController {
     @Autowired
     CustomerService customerService;
+    CustomerRepository customerRepository;
 
     @GetMapping("/")
+    String index() {
+        return "index";
+    }
+
+    @GetMapping("/list")
     String list(Model model) {
         List<Customer> customers = customerService.getAll();
         model.addAttribute("customers", customers);
@@ -61,12 +71,26 @@ public class CustomerController {
         }
 
         customerService.update(customerForm);
-        return "redirect:/";
+        return "redirect:/list";
     }
 
     @PostMapping("/delete")
     String delete(@RequestParam("id") Integer id) {
         customerService.delete(id);
-        return "redirect:/";
+        return "redirect:/list";
+    }
+
+    @GetMapping("/api/search")
+    @ResponseBody
+    public List<Customer> all() {
+        List<Customer> customers = customerService.getAll();
+        return customers;
+    }
+
+    @GetMapping("/api/search/{keyword}")
+    @ResponseBody
+    public List<Customer> searchCustomers(@PathVariable String keyword) {
+        List<Customer> customers = customerService.findByName(keyword);
+        return customers;
     }
 }

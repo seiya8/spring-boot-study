@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<link th:href="@{/webjars/bootstrap/5.3.1/css/bootstrap.min.css}" rel="stylesheet"/>
-<title>Customer List</title>
+    <title>User Search</title>
+    <link th:href="@{/webjars/bootstrap/5.3.1/css/bootstrap.min.css}" rel="stylesheet"/>
+    <script th:href="@{/webjars/jquery/3.7.1/js/jquery.min.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    <script th:href="@{/webjars/jquery/3.7.1/js/jquery.min.js}"></script>
-    <script th:href="@{/webjars/bootstrap/5.3.1/js/bootstrap.min.js}"></script>
     <div class="container-fluid">
         <h1>Customer List</h1>
+        <div class="col-2 my-3">
+            <input class="form-control" type="text" id="searchKeyword" placeholder="Name">
+        </div>
         <div class="col-10">
             <table class="table table-striped">
                 <thead>
@@ -22,7 +24,7 @@
                         <th width="10%"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="customerTableBody">
                     <tr th:each="customer : ${customers}">
                         <td th:text="${customer.id}"></td>
                         <td th:text="${customer.name}"></td>
@@ -43,10 +45,43 @@
                     </tr>
                 </tbody>
             </table>
-            <form action="/add" method="get">
-                <input class="btn btn-primary" type="submit" value="Create New Customer">
-            </form>
         </div>
+        <form action="/add" method="get">
+            <input class="btn btn-primary" type="submit" value="Register New Customer">
+        </form>
     </div>
+
+    <script>
+        $("#searchKeyword").on("keyup", function () {
+            var keyword = $(this).val();
+            var endpoint = keyword !== "" ? `/api/search/${keyword}` : "/api/search";
+            $.get(endpoint, function (data) {
+                var tableBody = $("#customerTableBody");
+                tableBody.empty();
+                data.forEach(function (customer) {
+                    tableBody.append(`
+                        <tr>
+                            <td>${customer.id}</td>
+                            <td>${customer.name}</td>
+                            <td>${customer.address}</td>
+                            <td>${customer.phoneNumber}</td>
+                            <td>
+                                <form action="/edit" method="get">
+                                    <input type="hidden" name="id" value="${customer.id}">
+                                    <input class="btn btn-primary" type="submit" value="Edit">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="/delete" method="post">
+                                    <input type="hidden" name="id" value="${customer.id}">
+                                    <input class="btn btn-primary" type="submit" value="Delete">
+                                </form>
+                            </td>
+                        </tr>
+                    `);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
