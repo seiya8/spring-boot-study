@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+    <script th:src="@{/app.js}"></script>
     <div class="container-fluid">
         <h1>Customer List</h1>
         <div class="col-2 my-3">
@@ -50,38 +51,5 @@
             <input class="btn btn-primary" type="submit" value="Register New Customer">
         </form>
     </div>
-
-    <script>
-        $("#searchKeyword").on("keyup", function () {
-            var keyword = $(this).val();
-            var endpoint = keyword !== "" ? `/api/search/${keyword}` : "/api/search";
-            $.get(endpoint, function (data) {
-                var tableBody = $("#customerTableBody");
-                tableBody.empty();
-                data.forEach(function (customer) {
-                    tableBody.append(`
-                        <tr>
-                            <td>${customer.id}</td>
-                            <td>${customer.name}</td>
-                            <td>${customer.address}</td>
-                            <td>${customer.phoneNumber}</td>
-                            <td>
-                                <form action="/edit" method="get">
-                                    <input type="hidden" name="id" value="${customer.id}">
-                                    <input class="btn btn-primary" type="submit" value="Edit">
-                                </form>
-                            </td>
-                            <td>
-                                <form action="/delete" method="post">
-                                    <input type="hidden" name="id" value="${customer.id}">
-                                    <input class="btn btn-primary" type="submit" value="Delete">
-                                </form>
-                            </td>
-                        </tr>
-                    `);
-                });
-            });
-        });
-    </script>
 </body>
 </html>
